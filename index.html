@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(...um poema, um café...) volume 1</title>
+    <style>
+        /* Importando a fonte 'Special Elite' do Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        /* Estilos gerais */
+        body {
+            font-family: 'Special Elite', 'Courier New', Courier, monospace;
+            background-color: #f9f9f9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' fill='%23f9f9f9'/%3E%3Cpath d='M0 0L20 20M20 0L0 20' stroke='%23e0e0e0' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* Container principal */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+
+        /* Título principal */
+        .title {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        /* Capa do livro */
+        .book-cover {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .book-cover img {
+            width: 250px; /* Aumento do tamanho da capa */
+            height: auto;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+            display: block;
+            margin: auto;
+        }
+
+        .book-cover img:hover {
+            transform: scale(1.08);
+        }
+
+        /* Modal para exibição da capa expandida */
+        .modal {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            opacity: 1;
+            display: flex;
+        }
+
+        .modal-content {
+            width: auto;
+            height: auto;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Notas do autor */
+        .author-notes {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #ccc;
+        }
+
+        .author-notes-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .author-notes-content {
+            text-align: justify;
+            font-size: 1.1em;
+        }
+
+        /* Estilo dos poemas */
+        .poem {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .poem-title {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: capitalize;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .poem-author {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-style: italic;
+            color: #555555;
+        }
+
+        .poem-content {
+            white-space: pre-wrap;
+            line-height: 1.8;
+            text-align: justify;
+            font-size: 1.1em;
+            padding-left: 15px;
+            border-left: 3px solid #ccc;
+        }
+
+        /* Rodapé */
+        .footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #777777;
+            margin-top: 50px;
+            border-top: 1px solid #dddddd;
+            padding-top: 15px;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">(...um poema, um café...)<br>volume 2</div>
+
+        <!-- Capa do Livro -->
+        <div class="book-cover">
+            <img id="bookImage" src="https://i.ibb.co/R8Mfrss/um-poema-um-caf-volume-2.png" alt="Capa do Livro">
+        </div>
+
+        <!-- Modal para exibir a capa expandida -->
+        <div id="imageModal" class="modal">
+            <span class="close-modal">&times;</span>
+            <img class="modal-content" id="modalImg">
+        </div>
+
+        <!-- Notas do Autor -->
+        <div class="author-notes">
+            <div class="author-notes-title">Notas do Autor</div>
+            <div class="author-notes-content">No segundo volume, … um poema, um café… traz a inquietação e o olhar mais atento às entrelinhas da própria existência. Se, no primeiro volume, a poesia fluía trazendo, por vezes, uma certa acidez, agora as águas são mais profundas, mais turvas, carregadas de paixão, reflexão e crítica. Há uma urgência na palavra, uma necessidade quase visceral de explorar sentimentos, desatar nós internos e transformar vivências em versos densos e introspectivos. Neste livro, a escrita se desdobra em camadas, atravessa metamorfoses, revela-se mais crua e, ao mesmo tempo, mais refinada. Cada poema é um espelho, mas não um espelho qualquer — é aquele que nos devolve olhares que evitamos, verdades que silenciamos. É um convite ao café mais forte, à poesia mais intensa, ao mergulho sem medo nas entranhas da palavra.</div>
+            <br>            
+            <div class="author-notes-content">Todos os poemas foram escritos predominantemente entre 2000 e 2004.</div>
+        </div>
+
+       <!-- Poema 1 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Palavra por Palavra</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Palavras são a chave do universo,<br>
+        É um caminho, é um acesso,<br>
+        É a força da expressão.<br><br>
+
+        Palavras não podem ser esquecidas,<br>
+        Elas devem ser traduzidas,<br>
+        Para dentro de nossa emoção.<br><br>
+
+        As palavras funcionam como seres,<br>
+        Têm sentido, têm dever,<br>
+        Precisam de outras para sobreviver.<br><br>
+
+        As palavras nos abrem um leque de conhecimentos,<br>
+        É um adorno, um equipamento,<br>
+        Indispensável para sermos compreendidos.<br><br>
+
+        É a mágica que fazemos,<br>
+        É vínculo frágil que temos,<br>
+        É a lâmina invisível que nos desliza,<br>
+        E que, além de tudo, pode nos ferir profundamente também.
+    </div>
+</div>
+
+<!-- Poema 2 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Além das palavras</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Não sei por que ando pensando muito em você nesses últimos dias.<br>
+        Não sei por que tudo que olho tem a tua cara e o teu jeito.<br>
+        Não sei por que o teu gosto ainda não saiu da minha boca.<br>
+        Não sei por que tuas palavras não saem de minha cabeça.<br>
+        Não sei por que teus abraços ficaram grudados em mim.<br>
+        Não sei por que não consigo te esquecer.<br>
+        Não sei por que teu rosto vaga em minha memória.<br>
+        Não sei por que te escrevo poemas.<br>
+        Não sei por que te amo.<br>
+        Não sei por que te quero.<br>
+        Mas sei porque te desejo!<br>
+        Não sei por que vivo do que se passou.<br>
+        Não sei por que escuto tua voz em meus ouvidos.<br>
+        Não sei por que não consigo te dizer o que realmente sinto.<br>
+        Não sei por que fico travado, imobilizado diante de ti.<br>
+        Não sei por que insisto em te querer.<br>
+        Não sei por que finjo que não sei de nada.<br>
+        Não sei por que minto pra mim.<br>
+        Não sei por que me faltam palavras nesse momento.<br>
+        Mas posso sentir que és a mulher que quero ter pra sempre ao meu lado.
+    </div>
+</div>
+
+<!-- Poema 3 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Cânticos de um amor</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Quero a luz dos teus olhos a incidir sobre os meus.<br>
+        Quero as carícias múltiplas que apenas você sabe me dar.<br>
+        Quero seu corpo junto ao meu outra vez,<br>
+        Num fluxo irradiante de sensações e sentimentos.<br>
+        Quero as palavras que me dizes a pairar,<br>
+        Mais e mais em meus ouvidos,<br>
+        Num cântico de adoração às coisas boas aqui presente.<br>
+        Quero e desejo seu cheiro impregnando o meu ser,<br>
+        Tomando conta do meu dia a dia.<br>
+        Quero essa forma cálida de te sentir ao meu lado,<br>
+        Eternizada por mais alguns instantes.<br>
+        Preciso de letras de músicas que falem de nós dois.<br>
+        Quero o sabor dos seus beijos revelados em mim mais uma vez.<br>
+        Necessito de suas cartas de amor para guiar-me nesse infindo delírio.<br>
+        Quero o seu desejo mais que tudo.<br>
+        Preciso sentir suas mãos acariciando o meu rosto.<br>
+        Quero debruçar-me em ti como um manto recheado de sentimentos e emoções,<br>
+        Sensações inesperadas acima de tudo.<br>
+        Preciso de você outra vez ao meu lado.<br>
+        Não me negue mais uma vez esse prazer... O seu prazer.
+    </div>
+</div>
+
+<!-- Poema 4 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Seus Olhos em Mim</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Seus olhos me contaram<br>
+        Que me enxergas através da alma.<br>
+        Entre pensamentos e ilusões,<br>
+        Distingue-me de seus atos,<br>
+        Consequentes prazeres da vida.<br><br>
+
+        Seus olhos me disseram<br>
+        Palavras que ainda não aprendi,<br>
+        Significados complexos<br>
+        Que ainda não se encontram no velho Aurélio.<br><br>
+
+        Seus olhos, eis que seus olhos<br>
+        Me colidiram com o passado,<br>
+        Presente retratado em mim,<br>
+        Por tantas vezes desfigurado.<br>
+        Fadado a ser eterno,<br>
+        Remete-me a um monólogo aplicativo,<br>
+        Onde passa-me a ideia de algo concreto,<br>
+        Mas que, com o tempo, assassina-me lentamente.<br><br>
+
+        Seus olhos, raio-x de lente opaca,<br>
+        Esconde-se na penumbra de minha alma inacabada,<br>
+        Fugindo das explicações lógicas para tudo isso.
+    </div>
+</div>
+
+<!-- Poema 5 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Contigo</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Vais ao longe, meu amor,<br>
+        Sua pessoa despede-se da minha.<br>
+        De agora em diante,<br>
+        Tudo faz parte das recordações.<br><br>
+
+        Contigo leva-me,<br>
+        De pensamentos e gestos,<br>
+        Aos mais puro êxtase.<br><br>
+
+        De tudo tenho saudades,<br>
+        Desde o calor do teu corpo,<br>
+        Ao beijo que roubas dos meus lábios.<br>
+        De abraços inesquecíveis,<br>
+        Completa-me a alma.<br>
+        Pois das palavras sinceras que remetes,<br>
+        Encontro a fonte da vida.<br><br>
+
+        Contigo guardo-me.<br>
+        Faço-me um poema em todos os sentidos,<br>
+        Uma verdade a ser dita.<br>
+        Contigo, comigo, conosco,<br>
+        Muito a se vivenciar.<br>
+        Duas vidas a se revelar,<br>
+        Eternizando o seu gosto.
+    </div>
+</div>
+
+<!-- Poema 6 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Pela vida, por você</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Por um segundo, seu fez-se o meu mais que infinito.<br>
+        Por algumas palavras, calo-me diante do mundo.<br>
+        Por alguns pensamentos, revelo-me a cada dia.<br>
+        Por sua companhia, às vezes esqueço da minha.<br><br>
+
+        Por tantas coisas lembro de ti.<br>
+        Por tantas vezes toquei em seu nome.<br>
+        Por tantas vezes... Rosas despedaçadas.<br>
+        Por mais que tudo, te guardo em mim.<br><br>
+
+        Por você e mais ninguém.<br>
+        Pela vida, mais além.<br>
+        Por nós dois, segundo a segundo,<br>
+        De momentos mais que momentos, me vejo em ti outra vez.
+    </div>
+</div>
+
+<!-- Poema 7 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Um amor partido</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Sei que algum dia, em qualquer lugar,<br>
+        Em seus braços irei me encontrar.<br>
+        Seu olhar será minha estrela-guia,<br>
+        No horizonte entre o céu e o mar.<br><br>
+
+        Por mais que eu tente imaginar,<br>
+        Como seria me entregar de corpo e alma<br>
+        A um amor que nunca chegou,<br>
+        Que jamais esteve em seu lugar.<br><br>
+
+        Olhos tristes, olhos fúnebres,<br>
+        A solidão machuca, estraçalha o coração.<br>
+        Arranca um sentimento que ainda nem começou.<br>
+        O que mais eu quero da vida a não ser o seu amor?<br><br>
+
+        Tantas palavras podem explicar<br>
+        O que sinto nesse momento.<br>
+        Só me diz como te achar<br>
+        E acabar com esse tormento.
+    </div>
+</div>
+
+<!-- Poema 8 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Em sua presença</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Em sua presença, encontro a maior das maravilhas existentes.<br>
+        Revelo-me a cada olhar expressivo contido em ti.<br>
+        Em cada palavra, descubro um pedacinho de mim,<br>
+        Que me faltara por toda a vida.<br><br>
+
+        Em sua presença, confio-lhe a minha.<br>
+        Entrego-me de corpo e alma à tua companhia,<br>
+        Desejando estar sempre perto de ti, dia e noite,<br>
+        Noites e dias, a fim de te ver.<br><br>
+
+        Em sua presença, encontro a felicidade<br>
+        E a alegria saborosa de te ter ao meu lado nesse momento.<br>
+        Podendo dizer-lhe tudo o que sinto,<br>
+        Declarando-me inteiramente por ti.
+    </div>
+</div>
+
+<!-- Poema 9 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Pensamentos</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Mar é vida, vida é tudo.<br>
+        Tudo é nada, nada é quase.<br>
+        Quase é nunca, nunca é sempre.<br><br>
+
+        Viver é ser feliz, ser feliz é um prazer.<br>
+        Um prazer é uma conquista.<br>
+        Uma conquista é uma vitória.<br><br>
+
+        O mundo é grande, esse grande é pequeno.<br>
+        Todo amor é pouco, esse pouco é muito.<br>
+        O simples se transforma em complexo.<br><br>
+
+        O difícil se torna fácil.<br>
+        A vida é cheia de aprendizados.<br>
+        Os aprendizados são realizações.<br><br>
+
+        O oculto se torna o óbvio.<br>
+        As pessoas caminham, às vezes pra frente.<br>
+        Nunca devemos olhar pra trás com arrependimento,<br>
+        Principalmente se for com um olhar melancólico.<br><br>
+
+        Não devemos nos lacerar em vão,<br>
+        Existem coisas e pessoas que não merecem tanto.
+    </div>
+</div>
+
+<!-- Poema 10 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Avessas Sentimentalistas</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        De tudo o que vivi, nada se compara ao teu carma.<br>
+        Tens um forte lado opressivo que desencadeia<br>
+        A morte súbita de uma paixão.<br><br>
+
+        Compele-me com a dor e o sofrimento das tuas cicatrizes,<br>
+        Algo ilusório contido apenas em mim.<br>
+        Deixe todos os sinais que por certo ainda não mandei.<br>
+        Dê valor às pequenas coisas que nos circundam.<br>
+        Faça delas a chave para a sua salvação.<br><br>
+
+        Eternizando essa sensação inebria,<br>
+        Às vezes constante em nosso dia a dia.<br>
+        Faz-me acreditar em uma só palavra<br>
+        Que sai da tua boca,<br>
+        Ou simplesmente remete-me ao pecado do teu corpo.<br><br>
+
+        Focalizando-me diante do prazer da luxúria,<br>
+        Que aos poucos toma conta de mim,<br>
+        Derramando-me como algo insignificante.<br><br>
+
+        Escreve-me sobre linhas como um poema desfigurado,<br>
+        De certo inacabado perante as avessas da vida.<br>
+        Contraditória alucinação figurativa<br>
+        Que me arranca o sono durante as madrugadas,<br>
+        Fazendo-me consumir xícaras e mais xícaras de café.<br><br>
+
+        Enquanto desperdiço minha saúde e minhas folhas de papel em branco,<br>
+        Com ideias alusórias de uma possível perda sentimental,<br>
+        Que por ventura não ocorreu,<br>
+        Mas que esteve presente o tempo inteiro em mim.
+    </div>
+</div>
+
+<!-- Poema 11 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Incogniscível</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Palavras, expressões e sentimentos,<br>
+        Eis o lado incogniscível do poeta.<br>
+        Retalhamento de sensações,<br>
+        Prazeres intermináveis,<br>
+        Múltiplos gozos literários.<br><br>
+
+        São apenas um pedaço<br>
+        Daquilo que chamamos de vida.<br>
+        Uma parte obscura,<br>
+        Presente em cada um de nós.<br><br>
+
+        Talvez nunca valha a pena descobri-la por completo,<br>
+        Enquanto não formos puros de alma.<br>
+        A sensibilidade ainda é uma coisa que nos falta.<br>
+        Entender a vida ainda é uma saga,<br>
+        Que por mais simples que seja, mais parece inexata.
+    </div>
+</div>
+
+<!-- Poema 12 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Quem Será?</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Quem é você que toma conta dos meus pensamentos,<br>
+        Fazendo-me feliz em cada madrugada?<br>
+        Quem é você que durante esses últimos anos,<br>
+        Me ensinou o verdadeiro sentido da poesia?<br><br>
+
+        Quem é você que consome meus dias e minhas noites,<br>
+        Em busca de uma simples palavra?<br>
+        Palavra essa que ainda tenho medo de pronunciar,<br>
+        E me entregar ao seu significado.<br><br>
+
+        Quem será que você é?<br>
+        Dúvidas, eis a questão! O maior medo que possuo.<br>
+        Meu sonho e pesadelo que sinto acordado.<br>
+        Nenhuma expressão explica o que sinto.<br><br>
+
+        Meus pensamentos vagueiam pela escura estrada de sua existência.<br>
+        Por algumas vezes gritei pelo teu nome,<br>
+        E inúmeras vezes fiquei sem resposta.<br>
+        Choro preso, contido, paixão insaciável, eloquente e verdadeira.<br><br>
+
+        Quem é você que sem palavras me remete ao desejo e ao pecado do seu corpo?<br>
+        Fazendo-me te escrever em versos o meu amor, sentimento e paixão.<br><br>
+
+        Quem é você?<br>
+        Não sei mais quem és e muito menos o que pretendes ser junto a minha pessoa.<br>
+        Mesmo assim, te amo e te quero.<br>
+        Quem sabe tudo isso aconteceu para apimentar ainda mais o relacionamento?<br>
+        Coração de poeta não se engana!<br>
+        Ele conhece a verdadeira intenção das pessoas.
+    </div>
+</div>
+
+<!-- Poema 13 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Minha Vida</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Andei bastante pelas estradas da vida.<br>
+        Conheci caminhos, pessoas e lugares.<br>
+        Conversei bastante sobre vários assuntos.<br>
+        Virei noites e mais noites em boas companhias,<br>
+        Tendo o desfrute<br>
+        De conhecer pessoas maravilhosas,<br>
+        As quais me dedico dias e noites de minha vida.<br><br>
+
+        Passei por várias situações onde prefiro não recordar.<br>
+        Alguns momentos mágicos que, sem dúvida,<br>
+        Marcaram a minha vida e a minha pessoa.<br>
+        Lutei por ideais, consegui vencer as dificuldades.<br>
+        Dificuldades estas que nunca me esquecerei,<br>
+        Devido às maneiras brilhantes que resolvi cada uma delas,<br>
+        Sem deixar que os “outros” me atrapalhassem.<br><br>
+
+        Hoje, já cansado de percorrer esses árduos caminhos sem fim,<br>
+        De apostar todas as minhas fichas em um futuro de grande sucesso,<br>
+        De brincar com a própria sorte e fazer roleta russa com o destino,<br>
+        Resolvi colocar os pés no chão e refletir sobre tudo o que fiz,<br>
+        E me perguntar se tudo isso valeu a pena.<br>
+        Ser feliz em um mundo imaginário,<br>
+        Preso dentro da minha cabeça,<br>
+        Me escondendo atrás de panos quentes.
+    </div>
+</div>
+
+<!-- Poema 14 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Nem todas as coisas</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Nem todos os dias são claros como o sol.<br>
+        Nem todas as manhãs são ávidas e transparentes.<br>
+        Nem todas as pessoas estão certas,<br>
+        Mas também nem todas estão erradas.<br><br>
+
+        Nenhum lugar pode ser igual ao outro.<br>
+        Nem todos os objetos são distintos.<br>
+        Nem todos os fatos ocorrem na vida,<br>
+        Mas também se ocorrerem, tornam a acontecer.<br><br>
+
+        Nenhuma resposta é completa,<br>
+        Incompletam-se pelo modo de ser.<br>
+        Nem todas as coisas são boas,<br>
+        Mas tornam-se ruins à medida que são descobertas.<br><br>
+
+        Nem tudo é só alegria,<br>
+        A tristeza é apenas uma consequência dos nossos atos.<br>
+        Nem sempre somos algo fácil de compreender,<br>
+        Nossa complexidade vem ao longo dos anos.<br><br>
+
+        Nem tudo está perdido,<br>
+        Basta parar pra pensar e achar uma porta de saída.<br>
+        Nem sempre as coisas são o que realmente parecem,<br>
+        Basta enxergá-las de outras maneiras para que mudem de sentido.<br><br>
+
+        Nem sempre o todo é tudo,<br>
+        Mas basta que o tudo se torne o nada,<br>
+        Para que possamos entendê-lo.
+    </div>
+</div>
+
+<!-- Poema 15 - Volume 2 -->
+<div class="poem">
+    <div class="poem-title">Mais Um Para a Poesia</div>
+    <div class="poem-author"></div>
+    <div class="poem-content">
+        Nada escrevo que não penso.<br>
+        Nada faço que não vejo.<br>
+        Nada sinto que não posso.<br>
+        Do mais, continuo o mesmo.<br><br>
+
+        Se na força de um desejo,<br>
+        Revejo, refaço, ressinto.<br>
+        Nada posso que não queira,<br>
+        Quanto mais tento, resisto.<br><br>
+
+        Se insisto a falar,<br>
+        Não escute o que há de escutar.<br>
+        Se novamente me vejo a pensar,<br>
+        De fato pensarei, pensarás, pensaremos em vão.<br><br>
+
+        Se na mente observo os distúrbios que relevo,<br>
+        Revelo na vela do barco<br>
+        O que de certo, por certo... Enfim...<br>
+        Não entendi até hoje.<br><br>
+
+        Se nas ondas do mar ecoei meu grito,<br>
+        Peço-lhes apenas que me ajudem<br>
+        A esclarecer o que não consegui<br>
+        Expressar em mais um simples poema,<br>
+        Lunático, antítico e revelador.
+    </div>
+</div>
+
+
+
+<!-- Rodapé -->
+        <div class="footer">
+            &copy; 2025<br>Todos os direitos reservados.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("bookImage").onclick = function () {
+            let modal = document.getElementById("imageModal");
+            let modalImg = document.getElementById("modalImg");
+
+            modalImg.src = this.src; // Define a imagem dentro do modal
+            modal.classList.add("show");
+        };
+
+        document.getElementById("imageModal").onclick = function (event) {
+            if (event.target === this || event.target.classList.contains("close-modal")) {
+                this.classList.remove("show");
+                setTimeout(() => { this.style.display = "none"; }, 300);
+            }
+        };
+    </script>
+</body>
+</html>
